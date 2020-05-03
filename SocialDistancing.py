@@ -24,7 +24,7 @@ def get_data(path):
         if not ret:
             break
         image = cv2.resize(image, (640, 360))
-        (H, W) = image.shape[:2]
+        H, W = image.shape[:2]
         ln = net.getLayerNames()
         ln = [ln[i[0] - 1] for i in net.getUnconnectedOutLayers()]
         blob = cv2.dnn.blobFromImage(image, 1 / 300.0, (416, 416), swapRB=True, crop=False)
@@ -49,8 +49,8 @@ def get_data(path):
 
         idxs = cv2.dnn.NMSBoxes(boxes, confidences, 0.5, 0.3)
         for i in idxs.flatten():
-            (x, y) = (boxes[i][0], boxes[i][1])
-            (w, h) = (boxes[i][2], boxes[i][3])
+            x, y = (boxes[i][0], boxes[i][1])
+            w, h = (boxes[i][2], boxes[i][3])
             image = cv2.rectangle(image, (x, y), (x + w, y + h), (0, 0, 255), 1)
         ind = []
         for i in range(0, len(classIDs)):
@@ -59,13 +59,13 @@ def get_data(path):
         coordinates = []
         if len(idxs) > 0:
             for i in idxs.flatten():
-                (x, y) = (boxes[i][0], boxes[i][1])
-                (w, h) = (boxes[i][2], boxes[i][3])
+                x, y = (boxes[i][0], boxes[i][1])
+                w, h = (boxes[i][2], boxes[i][3])
                 coordinates.append((x,y,w,h))
         violators = set()
         for i in range(0, len(coordinates) - 1):
             for k in range(1, len(coordinates)):
-                if (k == i):
+                if k == i:
                     continue
                 else:
                     x1,y1,w1,h1 = coordinates[i]
@@ -73,7 +73,7 @@ def get_data(path):
                     x_dist = (x1 - x2)
                     y_dist = (y1 - y2)
                     d = math.sqrt(x_dist * x_dist + y_dist * y_dist)
-                    if (d <= 40):
+                    if d <= 40:
                         alert += 1
                         current_count += 1
                         # image = cv2.line(image,(x1+w1//2, y1+h1//2),(x2+w2//2,y2+h2//2),(0, 255, 255),1)
