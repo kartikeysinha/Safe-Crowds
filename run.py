@@ -1,0 +1,23 @@
+from SocialDistancing import get_data
+import matplotlib.pyplot as plt
+vids = ['Street 1','Busy Airport','Street 2']
+v1,a1 = get_data('video1.mp4')
+v2,a2 = get_data('video2.mp4')
+v3,a3 = get_data('video3.mp4')
+fig,axes = plt.subplots(ncols=1,nrows=2)
+axes[0].bar(vids,[a1/len(v1),a2/len(v2),a3/len(v3)])
+axes[0].set_title('Violations Per Second')
+axes[1].set_xlabel('Time')
+axes[1].set_ylabel('Number of Violations')
+axes[1].plot(range(len(v1)),v1,label='Street 1')
+axes[1].plot(range(len(v2)),v2,label='Busy Airport')
+axes[1].plot(range(len(v3)),v3,label='Street 2')
+plt.legend()
+plt.tight_layout()
+print(v1)
+print(v2)
+print(v3)
+print(a1)
+print(a2)
+print(a3)
+plt.show()
