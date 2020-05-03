@@ -13,8 +13,6 @@ def get_data(path):
     cap = cv2.VideoCapture(path)
     hasFrame, frame = cap.read()
     net = cv2.dnn.readNetFromDarknet(configPath, weightsPath)
-    vid_writer = cv2.VideoWriter('output' + path[:-3] + '.avi', cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 10,
-                                 (frame.shape[1], frame.shape[0]))
     alert = 0
     count = 0
     current_frame = 0
@@ -96,8 +94,6 @@ def get_data(path):
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
         vals.append(current_count)
-        vid_writer.write(image)
-    vid_writer.release()
     cap.release()
     cv2.destroyAllWindows()
     return vals,alert
